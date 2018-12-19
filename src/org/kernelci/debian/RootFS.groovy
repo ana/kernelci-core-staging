@@ -27,11 +27,6 @@ KCI_TOKEN_ID
 
 */
 
-
-/* TODO:
-- Harcoded paths at jenkins/debian/... for Dockerfile and debos file
-*/
-
 package org.kernelci.debian
 
 
@@ -91,7 +86,7 @@ def makeImageStep(String pipeline_version,
                 checkout scm
             }
 
-            docker.build("debian", "-f jenkins/debian/Dockerfile_debos --pull .").inside("--device=/dev/kvm ${getDockerArgs()}") {
+            docker.image('kernelci/debos').inside("--device=/dev/kvm ${getDockerArgs()}") {
                 stage("Build base image for ${arch}") {
                     sh """
                         mkdir -p ${pipeline_version}/${arch}
